@@ -25,11 +25,6 @@ author:
     org: Akamai
     email: mbishop@evequefou.be
 
-normative:
-  QUIC-TRANSPORT
-  
-  QUIC-HTTP
-
 --- abstract
 
 This document specifies a URL scheme `httpqs` for a browser to discover that a
