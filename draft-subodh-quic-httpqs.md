@@ -61,10 +61,10 @@ use of QUIC:
   than an origin can use QUIC might be too late.
 
 To help make experimentation easier, we propose a new URL scheme for QUIC
-`httpqs:`.  Unlike Alt-Svc, `httpqs:` is limited in functionality and specifies
+`httpqs`.  Unlike Alt-Svc, `httpqs` is limited in functionality and specifies
 that the server makes the same resource available over both HTTPS over TCP, as
 well as HTTP over QUIC at the same IP address and port.  Alt-Svc scopes the use
-of an entire origin, but `httpqs:` only defines what happens to that particular
+of an entire origin, but `httpqs` only defines what happens to that particular
 resource.
 
 
@@ -74,28 +74,42 @@ Server and client behaviors
 Server Behavior
 ---------------
 
-Websites that use CDNs that support QUIC deployments which support a deployment
-where QUIC and TCP run on the same IP can send `httpqs` URLs wherever a `https`
-scheme could have been used.
+A CDN that supports the `httpqs` scheme MUST accept connections over HTTP
+over QUIC as well as HTTPS on the same IP and also the `https` port.  Accepting
+QUIC and TCP connections on the same IP does not require CDNs to listen on QUIC
+and TCP on the same host.
 
+Websites that use such CDNs can send `httpqs` URLs wherever a `https` scheme
+could have been used.  Discovery that a CDN supports this scheme is out of scope
+of this document. We assume that websites and CDNs have a trust relationship
+that allows them to discover that they can use this scheme.
 
 Client Behavior
 ---------------
 
-When a browser sees a URL to a resource with the scheme `httpqs`, if it does not
-have a cached connection for QUIC or TCP, it SHOULD race both a HTTP over QUIC
-and a HTTPS connection as soon as it has an IP address for the hostname to
+When a browser recieves a URL to a resource with the scheme `httpqs`, if it does
+not have a cached connection for QUIC or TCP, it SHOULD race both a HTTP over
+QUIC and a HTTPS connection as soon as it has an IP address for the hostname to
 connect to.  The specific policy of racing connections and the tradeoffs between
 using pooled connections versus opening new connections are out of scope of this
 document.
 
 It is possible that the browser already has an Alt-Svc setting available on the
-origin of the `httpqs` resource.  In this case, browsers MUST give `httpqs` a
-higher precedence, as it is a more specific marker.  A browser MAY reuse a
-pooled connection which was created as a result of connecting to an Alt-Svc,
-provided that the origin of the `httpqs` URL matches the original service of the
-Alt-Svc.
+origin of the `httpqs` resource.
 
+[OPEN QUESTION?]
+We have two options here:
+
+* Browsers MUST give `httpqs` higher precedence, as it is a more specific
+  marker.  This is a more natural choice.
+
+* Browsers MUST give Alt-Svc a higher precedence. This would allow a service to
+  stop accepting `httpqs` URLs at some point.  Should we even support stopping
+  accepting `httpqs` URLs.
+
+A browser MAY reuse a pooled connection which was created as a result of
+connecting to an Alt-Svc, provided that the origin of the `httpqs` URL matches
+the original service of the Alt-Svc.
 
 QUIC transport negotiation
 ---------------------------
@@ -108,10 +122,12 @@ hint even if an Alt-Svc value is available for the origin of the resource.
 Load balancing considerations
 =============================
 
-CDNs might want to balance load differently between QUIC and TCP.  `httpqs` may
-limit the ability to do so as it is a commitment to support both HTTP over QUIC
-and HTTPS over the same IP and port.  If a CDN wants to stop supporting QUIC it
-has several options:
+CDNs might want to load balance requests differently between QUIC and TCP.
+`httpqs` may limit the ability to do so as it is a commitment to support both
+HTTP over QUIC and HTTPS over the same IP and port.  CDNs MUST only support this
+scheme if they are ready to deal with these tradeoffs.
+
+If a CDN decides it wants to stop supporting QUIC it has several options:
 
 * Stop listening on a QUIC port at the IP. Browsers should fallback to TCP at
   that point.
@@ -125,6 +141,7 @@ Security Considerations
 For the browser security model `httpqs` schemes should be treated the same as
 `https` URLs for same origin checks.
 
-
+CDNs SHOULD have mitigations in place for Denial of Service attacks where
+attacking QUIC would take down the QUIC server as well.
 
 --- back
