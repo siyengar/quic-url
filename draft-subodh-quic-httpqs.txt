@@ -9,7 +9,7 @@ Expires: January 19, 2019                                         Akamai
                                                            July 18, 2018
 
 
-                   httpqs URL scheme to discover QUIC
+                     An httpqs URL scheme for QUIC
                     draft-subodh-quic-httpqs-latest
 
 Abstract
@@ -55,7 +55,7 @@ Copyright Notice
 
 Iyengar & Bishop        Expires January 19, 2019                [Page 1]
 
-Internet-Draft     httpqs URL scheme to discover QUIC          July 2018
+Internet-Draft        An httpqs URL scheme for QUIC            July 2018
 
 
 Table of Contents
@@ -111,7 +111,7 @@ Table of Contents
 
 Iyengar & Bishop        Expires January 19, 2019                [Page 2]
 
-Internet-Draft     httpqs URL scheme to discover QUIC          July 2018
+Internet-Draft        An httpqs URL scheme for QUIC            July 2018
 
 
 2.  Server and client behaviors
@@ -167,7 +167,7 @@ Internet-Draft     httpqs URL scheme to discover QUIC          July 2018
 
 Iyengar & Bishop        Expires January 19, 2019                [Page 3]
 
-Internet-Draft     httpqs URL scheme to discover QUIC          July 2018
+Internet-Draft        An httpqs URL scheme for QUIC            July 2018
 
 
 4.  Security Considerations
