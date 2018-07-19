@@ -1,6 +1,6 @@
-# An httpqs URL scheme for QUIC
+# URL representations for QUIC experimentation
 
-This is the working area for the individual Internet-Draft, "An httpqs URL scheme for QUIC".
+This is the working area for the individual Internet-Draft, "URL representations for QUIC experimentation".
 
 * [Editor's Copy](https://siyengar.github.io/quic-url/#go.draft-subodh-quic-httpqs.html)
 * [Individual Draft](https://tools.ietf.org/html/draft-subodh-quic-httpqs)
