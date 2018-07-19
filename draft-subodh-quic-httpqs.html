@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>An httpqs URL scheme for QUIC</title>
+  <title>URL representations for QUIC experimentation</title>
 
   
 <style type="text/css">/*<![CDATA[*/
@@ -297,8 +297,8 @@ ul.toc li {
   <meta name="dct.creator" content="Iyengar, S. and M. Bishop" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-subodh-quic-httpqs-latest" />
   <meta name="dct.issued" scheme="ISO8601" content="2018-7-18" />
-  <meta name="dct.abstract" content="This document specifies a URL scheme " />
-  <meta name="description" content="This document specifies a URL scheme " />
+  <meta name="dct.abstract" content="This document specifies a method, for a browser to discover that a particular resource is available over both HQ and HTTPS at the same IP address and port." />
+  <meta name="description" content="This document specifies a method, for a browser to discover that a particular resource is available over both HQ and HTTPS at the same IP address and port." />
 
 </head>
 
@@ -332,11 +332,11 @@ ul.toc li {
     </tbody>
   </table>
 
-  <p class="title">An httpqs URL scheme for QUIC<br />
+  <p class="title">URL representations for QUIC experimentation<br />
   <span class="filename">draft-subodh-quic-httpqs-latest</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>This document specifies a URL scheme <samp>httpqs</samp> for a browser to discover that a particular resource is available over both HTTP over QUIC and HTTPS at the same origin and IP address and port.</p>
+<p>This document specifies a method, for a browser to discover that a particular resource is available over both HQ and HTTPS at the same IP address and port.</p>
 <h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
@@ -381,28 +381,38 @@ ul.toc li {
 <li>A website will want to experiment with QUIC before enabling QUIC for CDN use cases.  One desired model of experimentation is at a per-user level where a website decides whether to assign a user to a test or control group.  A CDN typically does not have access to cookies which determine users.  Thus to run such an experiment, additional co-operation between the website and the CDN would be needed.  If the website decides that the user should use QUIC, it cannot normally supply an Alt-Svc for the CDN.  The website instead needs to provide a hint to the CDN that it wishes to use QUIC for the resource and and the CDN would then supply the Alt-Svc itself.  This process requires an additional round-trip to discover the use of QUIC and makes experiments more complex.</li>
 <li>A particular origin might not be requested frequently in one browser session.  For example, it is common for a CDN to cache different content types in different server locations and refer to each location with a different URL.  Once a client requests an HTTP resource over the network, it might not request it again over the network, because subsequent tries might receive a cached response.  If there are not many requests per origin, then discovering than an origin can use QUIC might be too late.</li>
 </ul>
-<p id="rfc.section.1.p.3">To help make experimentation easier, we propose a new URL scheme for QUIC <samp>httpqs</samp>.  Unlike Alt-Svc, <samp>httpqs</samp> is limited in functionality and specifies that the server makes the same resource available over both HTTPS over TCP, as well as HTTP over QUIC at the same IP address and port.  Alt-Svc scopes the use of an entire origin, but <samp>httpqs</samp> only defines what happens to that particular resource.</p>
+<p id="rfc.section.1.p.3">Two alternatives we could use which would make experimentation easier:</p>
+<p></p>
+
+<ul>
+<li>We could have a new URL scheme for QUIC <samp>httpqs</samp>.  When a browser sees the URL scheme it will know that the resource supports both HQ and HTTPS over the same IP and port.</li>
+<li>A reserved query string HQ-HTTP=1.  A wesbite would append the Query string to the URL of the CDN resource.</li>
+</ul>
+<p id="rfc.section.1.p.5">[OPEN QUESTION?]</p>
+<p id="rfc.section.1.p.6">Unlike Alt-Svc, these methods are limited in functionality and specify that the server makes only the resource available over both HTTPS, and HQ however not the entire hostname.</p>
+<p id="rfc.section.1.p.7">For the rest of the document we will refer to resources available on both HQ and HTTP at the same port as <samp>httpqs</samp> resources.</p>
 <h1 id="rfc.section.2">
 <a href="#rfc.section.2">2.</a> <a href="#server-and-client-behaviors" id="server-and-client-behaviors">Server and client behaviors</a>
 </h1>
 <h1 id="rfc.section.2.1">
 <a href="#rfc.section.2.1">2.1.</a> <a href="#server-behavior" id="server-behavior">Server Behavior</a>
 </h1>
-<p id="rfc.section.2.1.p.1">A CDN that supports the <samp>httpqs</samp> scheme MUST accept connections over HTTP over QUIC as well as HTTPS on the same IP and also the <samp>https</samp> port.  Accepting QUIC and TCP connections on the same IP does not require CDNs to listen on QUIC and TCP on the same host.</p>
-<p id="rfc.section.2.1.p.2">Websites that use such CDNs can send <samp>httpqs</samp> URLs wherever a <samp>https</samp> scheme could have been used.  Discovery that a CDN supports this scheme is out of scope of this document. We assume that websites and CDNs have a trust relationship that allows them to discover that they can use this scheme.</p>
+<p id="rfc.section.2.1.p.1">A CDN that supports <samp>httpqs</samp> resources MUST accept connections over HQ as well as HTTPS on the same IP and port.  Accepting QUIC and TCP connections on the same IP does not require CDNs to listen on QUIC and TCP on the same host.  CDNs SHOULD also exclude the query param / scheme from the cache key to ensure a high cache hit rate.</p>
+<p id="rfc.section.2.1.p.2">Websites that use such CDNs can send these URLs wherever a <samp>https</samp> scheme could have been used.  Discovery that a CDN supports this scheme is out of scope of this document.  We assume that websites and CDNs have a trust relationship that allows them to discover that they can use this scheme.</p>
 <h1 id="rfc.section.2.2">
 <a href="#rfc.section.2.2">2.2.</a> <a href="#client-behavior" id="client-behavior">Client Behavior</a>
 </h1>
-<p id="rfc.section.2.2.p.1">When a browser recieves a URL to a resource with the scheme <samp>httpqs</samp>, if it does not have a cached connection for QUIC or TCP, it SHOULD race both a HTTP over QUIC and a HTTPS connection as soon as it has an IP address for the hostname to connect to.  The specific policy of racing connections and the tradeoffs between using pooled connections versus opening new connections are out of scope of this document.</p>
-<p id="rfc.section.2.2.p.2">It is possible that the browser already has an Alt-Svc setting available on the origin of the <samp>httpqs</samp> resource.</p>
-<p id="rfc.section.2.2.p.3">[OPEN QUESTION?] We have two options here:</p>
+<p id="rfc.section.2.2.p.1">A browser must first determine whether the resource is for an <samp>httpqs</samp> resource.  This can be determined by parsing the scheme / query string [TODO: chooose one].</p>
+<p id="rfc.section.2.2.p.2">When a browser recieves a URL to a <samp>httpqs</samp> resource, if it does not have a cached connection for QUIC or TCP, it SHOULD race both a HQ and an HTTPS connection as soon as it has an IP address for the hostname to connect to.  The specific policy of racing connections and the tradeoffs between using pooled connections versus opening new connections are out of scope of this document.</p>
+<p id="rfc.section.2.2.p.3">It is possible that the browser already has an Alt-Svc setting available on the origin of the <samp>httpqs</samp> resource.</p>
+<p id="rfc.section.2.2.p.4">[OPEN QUESTION?] We have two options here:</p>
 <p></p>
 
 <ul>
 <li>Browsers MUST give <samp>httpqs</samp> higher precedence, as it is a more specific marker.  This is a more natural choice.</li>
-<li>Browsers MUST give Alt-Svc a higher precedence. This would allow a service to stop accepting <samp>httpqs</samp> URLs at some point.  Should we even support stopping accepting <samp>httpqs</samp> URLs.</li>
+<li>Browsers MUST give Alt-Svc a higher precedence. This would allow a service to stop accepting <samp>httpqs</samp> URLs at some point.  Should we even support stopping accepting <samp>httpqs</samp> resources?</li>
 </ul>
-<p id="rfc.section.2.2.p.5">A browser MAY reuse a pooled connection which was created as a result of connecting to an Alt-Svc, provided that the origin of the <samp>httpqs</samp> URL matches the original service of the Alt-Svc.</p>
+<p id="rfc.section.2.2.p.6">A browser MAY reuse a pooled connection which was created as a result of connecting to an Alt-Svc, provided that the origin of the <samp>httpqs</samp> resource matches the original service of the Alt-Svc.</p>
 <h1 id="rfc.section.2.3">
 <a href="#rfc.section.2.3">2.3.</a> <a href="#quic-transport-negotiation" id="quic-transport-negotiation">QUIC transport negotiation</a>
 </h1>
@@ -410,7 +420,7 @@ ul.toc li {
 <h1 id="rfc.section.3">
 <a href="#rfc.section.3">3.</a> <a href="#load-balancing-considerations" id="load-balancing-considerations">Load balancing considerations</a>
 </h1>
-<p id="rfc.section.3.p.1">CDNs might want to load balance requests differently between QUIC and TCP.  <samp>httpqs</samp> may limit the ability to do so as it is a commitment to support both HTTP over QUIC and HTTPS over the same IP and port.  CDNs MUST only support this scheme if they are ready to deal with these tradeoffs.</p>
+<p id="rfc.section.3.p.1">CDNs might want to load balance requests differently between QUIC and TCP.  <samp>httpqs</samp> resources may limit the ability to do so as it is a commitment to support both HQ and HTTPS over the same IP and port.  CDNs MUST only support this if they are ready to deal with these tradeoffs.</p>
 <p id="rfc.section.3.p.2">If a CDN decides it wants to stop supporting QUIC it has several options:</p>
 <p></p>
 
@@ -421,7 +431,7 @@ ul.toc li {
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
 </h1>
-<p id="rfc.section.4.p.1">For the browser security model <samp>httpqs</samp> schemes should be treated the same as <samp>https</samp> URLs for same origin checks.</p>
+<p id="rfc.section.4.p.1">[TODO: decide which design to use] If <samp>httpqs</samp> is used as a scheme, then for the browser security model <samp>httpqs</samp> schemes should be treated the same as <samp>https</samp> URLs for same origin checks.</p>
 <p id="rfc.section.4.p.2">CDNs SHOULD have mitigations in place for Denial of Service attacks where attacking QUIC would take down the QUIC server as well.</p>
 <h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
 <div class="avoidbreak">
