@@ -1,6 +1,6 @@
-# h pqs URL scheme o discover QUIC
+# An httpqs URL scheme for QUIC
 
-This is the working area for the individual Internet-Draft, "h pqs URL scheme o discover QUIC".
+This is the working area for the individual Internet-Draft, "An httpqs URL scheme for QUIC".
 
 * [Editor's Copy](https://siyengar.github.io/quic-url/#go.draft-subodh-quic-httpqs.html)
 * [Individual Draft](https://tools.ietf.org/html/draft-subodh-quic-httpqs)

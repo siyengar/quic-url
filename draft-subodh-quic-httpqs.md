@@ -1,5 +1,5 @@
 ---
-title: httpqs URL scheme to discover QUIC
+title: An httpqs URL scheme for QUIC
 abbrev:
 docname: draft-subodh-quic-httpqs-latest
 date: 2018-07-18
