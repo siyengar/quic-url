@@ -1,6 +1,6 @@
 ---
 title: httpqs URL scheme to discover QUIC
-abbrev: 
+abbrev:
 docname: draft-subodh-quic-httpqs-latest
 date: 2018-07-18
 category: std
@@ -37,9 +37,9 @@ Introduction        {#problems}
 ============
 
 A browser can discover that a particular HTTP resource is available via QUIC via
-Alt-Svc {{I-D.ietf-quic-http}}.  However, in some cases it is difficult to use
-Alt-Svc to discover the use of QUIC:
-  
+Alt-Svc.  However, in some cases it is difficult to use Alt-Svc to discover the
+use of QUIC:
+
 * A website will want to experiment with QUIC before enabling QUIC for CDN use
   cases.  One desired model of experimentation is at a per-user level where a
   website decides whether to assign a user to a test or control group.  A CDN
@@ -48,14 +48,14 @@ Alt-Svc to discover the use of QUIC:
   would be needed.  If the website decides that the user should use QUIC, it
   cannot normally supply an Alt-Svc for the CDN.  The website instead needs to
   provide a hint to the CDN that it wishes to use QUIC for the resource and and
-  the CDN would then supply the Alt-Svc itself.  This process requires an 
+  the CDN would then supply the Alt-Svc itself.  This process requires an
   additional round-trip to discover the use of QUIC and makes experiments more
   complex.
-  
+
 * A particular origin might not be requested frequently in one browser session.
   For example, it is common for a CDN to cache different content types in
   different server locations and refer to each location with a different URL.
-  Once a client requests an HTTP resource over the network, it might not 
+  Once a client requests an HTTP resource over the network, it might not
   request it again over the network, because subsequent tries might receive a
   cached response.  If there are not many requests per origin, then discovering
   than an origin can use QUIC might be too late.
@@ -67,6 +67,9 @@ well as HTTP over QUIC at the same IP address and port.  Alt-Svc scopes the use
 of an entire origin, but `httpqs:` only defines what happens to that particular
 resource.
 
+
+Server and client behaviors
+===========================
 
 Server Behavior
 ---------------
@@ -89,7 +92,7 @@ document.
 It is possible that the browser already has an Alt-Svc setting available on the
 origin of the `httpqs` resource.  In this case, browsers MUST give `httpqs` a
 higher precedence, as it is a more specific marker.  A browser MAY reuse a
-pooled connection which was created as a result of connecting to an Alt-Svc, 
+pooled connection which was created as a result of connecting to an Alt-Svc,
 provided that the origin of the `httpqs` URL matches the original service of the
 Alt-Svc.
 
@@ -103,7 +106,7 @@ default transport parameter negotiation as if no version was specified as a
 hint even if an Alt-Svc value is available for the origin of the resource.
 
 Load balancing considerations
------------------------------
+=============================
 
 CDNs might want to balance load differently between QUIC and TCP.  `httpqs` may
 limit the ability to do so as it is a commitment to support both HTTP over QUIC
@@ -112,7 +115,7 @@ has several options:
 
 * Stop listening on a QUIC port at the IP. Browsers should fallback to TCP at
   that point.
-  
+
 * Advertise a Version negotiation packet with an invalid version which is not
   supported.
 
