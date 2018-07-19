@@ -26,7 +26,7 @@ author:
     email: mbishop@evequefou.be
 
 normative:
-  QUIC-TRANSPORT: title: "QUIC: A UDP-Based Multiplexed and Secure Transport" date: {DATE} seriesinfo: Internet-Draft: draft-ietf-quic-transport-latest author: - ins: J. Iyengar name: Jana Iyengar org: Fastly role: editor - ins: M. Thomson name: Martin Thomson org: Mozilla role: editor
+  QUIC-TRANSPORT
   
   QUIC-HTTP
 
