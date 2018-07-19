@@ -1,0 +1,461 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>httpqs URL scheme to discover QUIC</title>
+
+  
+<style type="text/css">/*<![CDATA[*/
+
+body {
+  font: 16px "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 24px;
+  margin: 75px auto;
+  max-width: 624px;
+  padding: 0 5px;
+}
+
+.title, .filename, h1, h2, h3, h4, h5 {
+  font: 16px "Roboto Condensed","Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: bold;
+  color: #333;
+  line-height: 100%;
+  margin: 1.2em 0 0.3em;
+}
+.title, #rfc\.title h1 { font-size: 32px; }
+h1, section h1, h2, section h2, section h3, nav h2 { font-size: 20px; }
+h3, section h4, h4, section h5 { font-size: 16px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header, table#rfc\.headerblock {
+  width: 100%;
+}
+table.header td, table#rfc\.headerblock td {
+  border: none;
+  background-color: transparent;
+  color: black;
+  padding: 0;
+}
+.filename {
+  display: block;
+  color: rgb(119, 119, 119);
+  font-size: 20px;
+  font-weight: normal;
+  line-height: 100%;
+  margin: 10px 0 32px;
+}
+#rfc\.abstract+p, #rfc\.abstract p {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+samp, tt, code, pre {
+  font: 15px Consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure, caption {
+  font-style: italic;
+  margin: 0 1.5em;
+  text-align: left;
+}
+
+address {
+  margin: 16px 2px;
+  line-height: 20px;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn, address b {
+  font-weight: normal;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+hr.noprint {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+p, ol, ul, li {
+  padding: 0;
+}
+p {
+  margin: 0.5em 0;
+}
+ol, ul {
+  margin: 0.2em 0 0.2em 2em;
+}
+li {
+  margin: 0.2em 0;
+}
+address {
+  font-style: normal;
+}
+
+ul.toc ul {
+  margin: 0 0 0 2em;
+}
+ul.toc li {
+  list-style: none;
+  margin: 0;
+}
+
+@media screen and (min-width: 924px) {
+  body {
+    padding-right: 350px;
+  }
+  body>ul.toc, body>#rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    z-index: 1;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  body>#rfc\.toc {
+    top: 55px;
+  }
+  body>ul.toc {
+    top: 100px;
+  }
+
+  ul.toc {
+    margin: 0 0 0 4px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+  ul.toc ul {
+    margin-left: 1.2em;
+  }
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+/*]]>*/</style>
+<meta name="viewport" content="initial-scale=1.0">
+
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.2" rel="Chapter" title="2 Server and client behaviors">
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Server Behavior">
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Client Behavior">
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 QUIC transport negotiation">
+<link href="#rfc.section.3" rel="Chapter" title="3 Load balancing considerations">
+<link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.8.2 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Iyengar, S. and M. Bishop" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-subodh-quic-httpqs-latest" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-7-18" />
+  <meta name="dct.abstract" content="This document specifies a URL scheme " />
+  <meta name="description" content="This document specifies a URL scheme " />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">QUIC</td>
+<td class="right">S. Iyengar</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">Facebook</td>
+</tr>
+<tr>
+<td class="left">Intended status: Standards Track</td>
+<td class="right">M. Bishop</td>
+</tr>
+<tr>
+<td class="left">Expires: January 19, 2019</td>
+<td class="right">Akamai</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">July 18, 2018</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">httpqs URL scheme to discover QUIC<br />
+  <span class="filename">draft-subodh-quic-httpqs-latest</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>This document specifies a URL scheme <samp>httpqs</samp> for a browser to discover that a particular resource is available over both HTTP over QUIC and HTTPS at the same origin and IP address and port.</p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on January 19, 2019.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2018 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<li>2.   <a href="#rfc.section.2">Server and client behaviors</a>
+</li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Server Behavior</a>
+</li>
+<li>2.2.   <a href="#rfc.section.2.2">Client Behavior</a>
+</li>
+<li>2.3.   <a href="#rfc.section.2.3">QUIC transport negotiation</a>
+</li>
+</ul><li>3.   <a href="#rfc.section.3">Load balancing considerations</a>
+</li>
+<li>4.   <a href="#rfc.section.4">Security Considerations</a>
+</li>
+<li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#problems" id="problems">Introduction</a>
+</h1>
+<p id="rfc.section.1.p.1">A browser can discover that a particular HTTP resource is available via QUIC via Alt-Svc.  However, in some cases it is difficult to use Alt-Svc to discover the use of QUIC:</p>
+<p></p>
+
+<ul>
+<li>A website will want to experiment with QUIC before enabling QUIC for CDN use cases.  One desired model of experimentation is at a per-user level where a website decides whether to assign a user to a test or control group.  A CDN typically does not have access to cookies which determine users.  Thus to run such an experiment, additional co-operation between the website and the CDN would be needed.  If the website decides that the user should use QUIC, it cannot normally supply an Alt-Svc for the CDN.  The website instead needs to provide a hint to the CDN that it wishes to use QUIC for the resource and and the CDN would then supply the Alt-Svc itself.  This process requires an additional round-trip to discover the use of QUIC and makes experiments more complex.</li>
+<li>A particular origin might not be requested frequently in one browser session.  For example, it is common for a CDN to cache different content types in different server locations and refer to each location with a different URL.  Once a client requests an HTTP resource over the network, it might not request it again over the network, because subsequent tries might receive a cached response.  If there are not many requests per origin, then discovering than an origin can use QUIC might be too late.</li>
+</ul>
+<p id="rfc.section.1.p.3">To help make experimentation easier, we propose a new URL scheme for QUIC <samp>httpqs:</samp>.  Unlike Alt-Svc, <samp>httpqs:</samp> is limited in functionality and specifies that the server makes the same resource available over both HTTPS over TCP, as well as HTTP over QUIC at the same IP address and port.  Alt-Svc scopes the use of an entire origin, but <samp>httpqs:</samp> only defines what happens to that particular resource.</p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#server-and-client-behaviors" id="server-and-client-behaviors">Server and client behaviors</a>
+</h1>
+<h1 id="rfc.section.2.1">
+<a href="#rfc.section.2.1">2.1.</a> <a href="#server-behavior" id="server-behavior">Server Behavior</a>
+</h1>
+<p id="rfc.section.2.1.p.1">Websites that use CDNs that support QUIC deployments which support a deployment where QUIC and TCP run on the same IP can send <samp>httpqs</samp> URLs wherever a <samp>https</samp> scheme could have been used.</p>
+<h1 id="rfc.section.2.2">
+<a href="#rfc.section.2.2">2.2.</a> <a href="#client-behavior" id="client-behavior">Client Behavior</a>
+</h1>
+<p id="rfc.section.2.2.p.1">When a browser sees a URL to a resource with the scheme <samp>httpqs</samp>, if it does not have a cached connection for QUIC or TCP, it SHOULD race both a HTTP over QUIC and a HTTPS connection as soon as it has an IP address for the hostname to connect to.  The specific policy of racing connections and the tradeoffs between using pooled connections versus opening new connections are out of scope of this document.</p>
+<p id="rfc.section.2.2.p.2">It is possible that the browser already has an Alt-Svc setting available on the origin of the <samp>httpqs</samp> resource.  In this case, browsers MUST give <samp>httpqs</samp> a higher precedence, as it is a more specific marker.  A browser MAY reuse a pooled connection which was created as a result of connecting to an Alt-Svc, provided that the origin of the <samp>httpqs</samp> URL matches the original service of the Alt-Svc.</p>
+<h1 id="rfc.section.2.3">
+<a href="#rfc.section.2.3">2.3.</a> <a href="#quic-transport-negotiation" id="quic-transport-negotiation">QUIC transport negotiation</a>
+</h1>
+<p id="rfc.section.2.3.p.1">Alt-Svc allows specific QUIC versions as well as ALPNs to be provided as hints to reduce round trips during connection establishment.  <samp>httpqs</samp> follows the default transport parameter negotiation as if no version was specified as a hint even if an Alt-Svc value is available for the origin of the resource.</p>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#load-balancing-considerations" id="load-balancing-considerations">Load balancing considerations</a>
+</h1>
+<p id="rfc.section.3.p.1">CDNs might want to balance load differently between QUIC and TCP.  <samp>httpqs</samp> may limit the ability to do so as it is a commitment to support both HTTP over QUIC and HTTPS over the same IP and port.  If a CDN wants to stop supporting QUIC it has several options:</p>
+<p></p>
+
+<ul>
+<li>Stop listening on a QUIC port at the IP. Browsers should fallback to TCP at that point.</li>
+<li>Advertise a Version negotiation packet with an invalid version which is not supported.</li>
+</ul>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
+</h1>
+<p id="rfc.section.4.p.1">For the browser security model <samp>httpqs</samp> schemes should be treated the same as <samp>https</samp> URLs for same origin checks.</p>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Subodh Iyengar</span> 
+	  <span class="n hidden">
+		<span class="family-name">Iyengar</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Facebook</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:subodh@fb.com">subodh@fb.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Mike Bishop</span> 
+	  <span class="n hidden">
+		<span class="family-name">Bishop</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Akamai</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:mbishop@evequefou.be">mbishop@evequefou.be</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
