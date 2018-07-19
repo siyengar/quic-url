@@ -28,7 +28,8 @@ author:
 --- abstract
 
 This document specifies a method, for a browser to discover that a particular
-resource is available over both HQ and HTTPS at the same IP address and port.
+resource is available over both HQ and HTTPS at the same IP address and port to
+facilitate easier experimentation of QUIC.
 
 --- middle
 
